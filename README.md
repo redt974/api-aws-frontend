@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# Frontend - Application "Je suis l'Autre"
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce projet est le frontend de l'application "Je suis l'Autre". Il est construit avec React et utilise des composants modernes pour créer une interface utilisateur interactive.
 
-## Available Scripts
+## Prérequis
 
-In the project directory, you can run:
+- Node.js (version 14 ou supérieure)
+- npm (ou yarn)
+
+## Installation
+
+1. Clonez le dépôt :
+
+```bash
+git clone https://github.com/redt974/Je-suis-l-Autre-frontend.git
+cd frontend
+```
+
+2. Installez les dépendances :
+
+```bash
+npm install
+```
+
+3. Démarrez l'application :
+
+```bash
+npm start
+```
+
+L'application frontend devrait maintenant être en cours d'exécution à l'adresse `http://localhost:3000`.
+
+## Scripts disponibles
+
+Dans le répertoire du projet, vous pouvez exécuter :
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Lance l'application en mode développement.  
+Ouvrez [http://localhost:3000](http://localhost:3000) pour la voir dans votre navigateur.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Lance le runner de tests en mode interactif.  
+Voir la section sur [running tests](https://facebook.github.io/create-react-app/docs/running-tests) pour plus d'informations.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Construit l'application pour la production dans le dossier `build`.  
+Il regroupe correctement React en mode production et optimise la construction pour de meilleures performances.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Note: cette action est irréversible.**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Si vous n'êtes pas satisfait de l'outil de build et des choix de configuration, vous pouvez `eject` à tout moment. Ce script supprimera la dépendance de build unique de votre projet.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Utilisation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Pages principales
 
-## Learn More
+- **Accueil** : La page d'accueil de l'application.
+- **Inscription** : Permet aux nouveaux utilisateurs de s'inscrire.
+- **Connexion** : Permet aux utilisateurs existants de se connecter.
+- **Réinitialisation de mot de passe** : Permet aux utilisateurs de réinitialiser leur mot de passe en utilisant un token reçu par email.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Structure du projet
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `src/` : Contient tous les fichiers source de l'application.
+  - `components/` : Composants réutilisables.
+  - `pages/` : Pages principales de l'application.
+  - `services/` : Services pour les appels API.
+  - `App.js` : Composant principal de l'application.
+  - `index.js` : Point d'entrée de l'application.
 
-### Code Splitting
+## Contributions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Les contributions sont les bienvenues ! Veuillez ouvrir une issue ou soumettre une pull request pour toute amélioration ou correction de bug.
 
-### Analyzing the Bundle Size
+## Licence
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.

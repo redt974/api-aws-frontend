@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .app {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  h1, h2, h3 {
+    color: #333;
+  }
+  
+  .options {
+    margin-bottom: 2rem;
+  }
+  
+  .buttons-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #ddd;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+  
+  .btn:hover {
+    background: #ccc;
+  }
+  
+  .btn.active {
+    background: #4caf50;
+    color: white;
+  }
+  
+  .btn.primary {
+    background: #007bff;
+    color: white;
+    margin-top: 10px;
+  }
+  
+  .btn.primary:hover {
+    background: #0056b3;
+  }
+  
+  .btn.danger {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .btn.danger:hover {
+    background: #c82333;
+  }
+  
+  .vm-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .vm-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 1rem;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .vm-item a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .vm-item a:hover {
+    text-decoration: underline;
+  }
+  
