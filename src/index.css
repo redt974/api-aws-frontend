@@ -11,3 +11,120 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Styles principal pour les pages à formulaires */
+.formulaire {
+  width: 100%;
+  height: 100%;
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--white);
+  font-family: 'Poppins-Light';
+}
+
+/* Styles pour le bandeau de newsletter */
+.formulaire.subscribe-form {
+  padding: 0;
+  margin: 0;
+  height: unset;
+}
+
+.formulaire.subscribe-form form {
+  padding: 0;
+  margin: 0;
+  height: unset;
+  justify-content: unset;
+}
+
+/* Styles pour les titres sur les pages d'formulaire */
+.formulaire h2 {
+  font-size: 35px;
+  font-family: 'Poppins-Bold';
+  text-transform: uppercase;
+}
+
+/* Styles pour les formulaires sur les pages de formulaire */
+.formulaire form {
+  width: 303px;
+  height: 100%;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Styles pour les labels dans les formlaires */
+.formulaire label {
+  width: 100%;
+  font-size: 15px;
+  font-family: 'Poppins-Bold';
+  text-transform: uppercase;
+  text-align: start;
+  letter-spacing: 2px;
+}
+
+/* Styles pour les champs de saisie dans les formulaires */
+.formulaire input {
+  background-color: var(--blue-gris);
+  color: var(--white);
+  border: 1px solid var(--white);
+  border-radius: 3px;
+  padding: 13px;
+  font-size: 16px;
+}
+
+/* Styles pour les boutons de soumission des formulaires */
+.formulaire button[type="submit"] {
+  width: 100%;
+  background-color: var(--blue-gris);
+  color: var(--white);
+  padding: 10px 20px;
+  border: 1px solid var(--white);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+/* Styles pour les boutons de soumission au survol */
+.formulaire button[type="submit"]:hover {
+  background-color: var(--white);
+  border: 1px solid var(--blue-gris);
+  color: var(--blue-gris);
+}
+
+/* Styles pour les liens */
+.formulaire a {
+  color: var(--blue-gris);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+/* Styles pour les liens au survol */
+.formulaire a:hover {
+  color: var(--rose);
+  text-decoration: underline;
+  transition: 0.3s ease;
+}
+
+/* Styles pour les cases à cocher "Remember Me" */
+.formulaire .rememberMe {
+  cursor: pointer;
+}
+
+/* Styles pour les labels des cases à cocher "Remember Me" */
+.formulaire .rememberMe label {
+  padding-left: 5px;
+  font-size: 16px;
+  font-family: 'Poppins-Light';
+  text-transform: none;
+  text-align: start;
+  letter-spacing: 0px;
+}

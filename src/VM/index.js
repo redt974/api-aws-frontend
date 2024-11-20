@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './index.css';
 
-function App() {
+function VM() {
   const [os, setOs] = useState('');
   const [software, setSoftware] = useState([]);
   const [extensions, setExtensions] = useState([]);
@@ -27,10 +27,10 @@ function App() {
 
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/vm/create`, {
+      const response = await fetch(`${process.env.REACT_VM_API_URL}/api/vm/create`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'VMlication/json',
         },
         body: JSON.stringify({
           os,
@@ -69,7 +69,7 @@ function App() {
   const handleDeleteVm = async (index) => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/vm/delete`, {
+      const response = await fetch(`${process.env.REACT_VM_API_URL}/api/vm/delete`, {
         method: 'POST',
       });
 
@@ -103,7 +103,7 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className="VM">
       <h1>Gestionnaire de VMs AWS</h1>
 
       <div className="options">
@@ -176,7 +176,7 @@ function App() {
               <button
                 className="btn secondary"
                 onClick={() => {
-                  window.location.href = `${process.env.REACT_APP_API_URL}/api/download-key?keyPath=${encodeURIComponent(
+                  window.location.href = `${process.env.REACT_VM_API_URL}/api/download-key?keyPath=${encodeURIComponent(
                     vm.ssh_private_key_path
                   )}`;
                 }}
@@ -200,4 +200,4 @@ function App() {
   );
 }
 
-export default App;
+export default VM;
