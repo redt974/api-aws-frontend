@@ -1,82 +1,77 @@
-# Frontend - Application "Je suis l'Autre"
+# API AWS Frontend
 
-Ce projet est le frontend de l'application "Je suis l'Autre". Il est construit avec React et utilise des composants modernes pour créer une interface utilisateur interactive.
+Ce projet frontend est une interface utilisateur pour interagir avec l'API AWS Backend. Il gère les fonctionnalités d'authentification, de gestion des utilisateurs, de création et de gestion des machines virtuelles (VM), ainsi que des actions de déconnexion, de réinitialisation de mot de passe, et plus encore.
 
 ## Prérequis
 
-- Node.js (version 14 ou supérieure)
-- npm (ou yarn)
+1. **Node.js** : Assurez-vous que Node.js est installé sur votre machine. Vous pouvez vérifier la version avec :
+   ```
+   node -v
+   ```
+
+2. **Installation des dépendances** : Le projet utilise `npm` pour gérer les dépendances, assurez-vous que les packages sont installés avant de démarrer le projet.
 
 ## Installation
 
-1. Clonez le dépôt :
+1. Clonez ou téléchargez le projet.
+2. Accédez au dossier du projet dans votre terminal :
+   ```
+   cd C:\Users\vandi\Downloads\api-aws-frontend
+   ```
+3. Installez les dépendances nécessaires :
+   ```
+   npm install
+   ```
 
-```bash
-git clone https://github.com/redt974/Je-suis-l-Autre-frontend.git
-cd frontend
+## Lancer l'application
+
+Après avoir installé les dépendances, lancez le projet avec la commande suivante :
 ```
-
-2. Installez les dépendances :
-
-```bash
-npm install
-```
-
-3. Démarrez l'application :
-
-```bash
 npm start
 ```
 
-L'application frontend devrait maintenant être en cours d'exécution à l'adresse `http://localhost:3000`.
+Cela démarrera l'application React sur le port par défaut (3000).
 
-## Scripts disponibles
+## Fonctionnalités principales
 
-Dans le répertoire du projet, vous pouvez exécuter :
+### 1. **Authentification et gestion des utilisateurs**
+   - **Inscription** : Les utilisateurs peuvent s'inscrire via le formulaire d'inscription (`/auth/inscription`).
+   - **Connexion** : Authentification des utilisateurs via `connexion.js` avec gestion du token JWT.
+   - **Déconnexion** : Déconnexion et suppression du token.
+   - **Réinitialisation de mot de passe** : Permet aux utilisateurs de réinitialiser leur mot de passe.
+   - **Middleware d'authentification** : Le composant `middleware.js` vérifie si l'utilisateur est authentifié et le redirige en fonction de son statut.
 
-### `npm start`
+### 2. **Gestion des machines virtuelles (VM)**
+   - **Création de VM** : Le frontend permet la création de machines virtuelles via les API définies dans `/VM`.
+   - **Gestion du VPN** : Téléchargement et configuration du VPN pour les VMs.
 
-Lance l'application en mode développement.  
-Ouvrez [http://localhost:3000](http://localhost:3000) pour la voir dans votre navigateur.
+### 3. **Modaux et gestion des erreurs**
+   - **Expires** : Si un token expire, un modal s'affiche pour permettre à l'utilisateur de se reconnecter.
+   - **Loading** : Un composant de chargement est utilisé pour les actions longues (par exemple, lors de la création ou suppression d'une VM).
 
-### `npm test`
+### 4. **Gestion des réponses du backend**
+   - Les réponses du backend sont gérées dans le composant `response.js` pour afficher un message d'erreur ou de succès à l'utilisateur.
 
-Lance le runner de tests en mode interactif.  
-Voir la section sur [running tests](https://facebook.github.io/create-react-app/docs/running-tests) pour plus d'informations.
+### 5. **Erreur globale**
+   - **ErrorBoundary** : Un composant pour gérer les erreurs globales de l'application et empêcher le plantage de l'UI.
 
-### `npm run build`
+## Détails du code
 
-Construit l'application pour la production dans le dossier `build`.  
-Il regroupe correctement React en mode production et optimise la construction pour de meilleures performances.
+### Authentification
 
-### `npm run eject`
+Le code d'authentification est centralisé dans le dossier `auth`, avec un `authContext.js` pour gérer l'état global de l'utilisateur, ainsi que des composants spécifiques pour la connexion, la déconnexion et l'inscription.
 
-**Note: cette action est irréversible.**
+- **authContext.js** : Fournit un contexte d'authentification pour toute l'application.
+- **middleware.js** : Un middleware pour vérifier si l'utilisateur est authentifié avant d'accéder aux routes protégées.
+  
+### Services
 
-Si vous n'êtes pas satisfait de l'outil de build et des choix de configuration, vous pouvez `eject` à tout moment. Ce script supprimera la dépendance de build unique de votre projet.
+Le fichier `services/api.js` contient des fonctions pour interagir avec le backend via des requêtes HTTP (par exemple, `postData` pour envoyer des données au backend).
 
-## Utilisation
+### Gestion des VM
 
-### Pages principales
-
-- **Accueil** : La page d'accueil de l'application.
-- **Inscription** : Permet aux nouveaux utilisateurs de s'inscrire.
-- **Connexion** : Permet aux utilisateurs existants de se connecter.
-- **Réinitialisation de mot de passe** : Permet aux utilisateurs de réinitialiser leur mot de passe en utilisant un token reçu par email.
-
-## Structure du projet
-
-- `src/` : Contient tous les fichiers source de l'application.
-  - `components/` : Composants réutilisables.
-  - `pages/` : Pages principales de l'application.
-  - `services/` : Services pour les appels API.
-  - `App.js` : Composant principal de l'application.
-  - `index.js` : Point d'entrée de l'application.
+Le dossier `VM` contient les composants responsables de la gestion des machines virtuelles, comme la création de VM et le téléchargement des configurations VPN.
 
 ## Contributions
 
-Les contributions sont les bienvenues ! Veuillez ouvrir une issue ou soumettre une pull request pour toute amélioration ou correction de bug.
-
-## Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Les contributions sont les bienvenues ! Si vous souhaitez contribuer, veuillez forker ce projet et soumettre une pull request avec vos améliorations.
