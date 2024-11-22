@@ -1,11 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../authentification/AuthContext';
-import MiddlewareAuth from './middleware';
 
 function Deconnexion() {
-
-  MiddlewareAuth();
 
   // Hook pour naviguer entre les pages
   const navigate = useNavigate();

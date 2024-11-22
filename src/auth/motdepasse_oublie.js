@@ -3,12 +3,8 @@ import { postData } from '../services/api';
 import Response from '../components/response';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './authContext.js';
-import MiddlewareAuth from './middleware.js';
 
 const MotDePasseOublie = () => {
-
-  // Rediriger si l'utilisateur est déjà connecté
-  MiddlewareAuth();
 
   // États pour gérer l'email, les messages et les erreurs
   const [email, setEmail] = useState('');
@@ -36,7 +32,7 @@ const MotDePasseOublie = () => {
     
     try {
       // Envoi de la demande de réinitialisation du mot de passe
-      const result = await postData('api/motdepasse_oublie', { email }, logout, refreshToken);
+      const result = await postData('api/forgot_mdp', { email }, logout, refreshToken);
       
       // Traitement de la réponse du serveur
       if (result.message) {

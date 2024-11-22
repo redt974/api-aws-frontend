@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import './index.css';
+import DownloadVPNConfig from '../components/download';
+import { postData } from '../services/api.js';
+import MiddlewareAuth from '../auth/middleware.js';
 
 function VM() {
+  // Rediriger si l'utilisateur est déjà connecté
+  MiddlewareAuth();
+
   const [os, setOs] = useState('');
   const [software, setSoftware] = useState([]);
   const [extensions, setExtensions] = useState([]);
+  const [userName, setUserName] = useState('');
+  const [userPassword, setUserPassword] = useState('');
   const [vmList, setVmList] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -25,25 +33,17 @@ function VM() {
       return;
     }
 
+    if (os.startsWith('Windows') && (!userName || !userPassword)) {
+      alert('Veuillez fournir un nom d\'utilisateur et un mot de passe pour Windows.');
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.REACT_VM_API_URL}/api/vm/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'VMlication/json',
-        },
-        body: JSON.stringify({
-          os,
-          software,
-          extensions,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erreur lors de la création de la VM.');
-      }
-
-      const data = await response.json();
+      const data = await postData(
+        'api/vm/create',
+        { os, software, extensions, user_name: userName, user_password: userPassword }
+      );
 
       if (!data.public_ip || !data.ssh_private_key) {
         throw new Error('Réponse invalide de l’API.');
@@ -56,6 +56,8 @@ function VM() {
           ip: data.public_ip,
           ssh_private_key_path: data.ssh_private_key,
           output: data.message,
+          instanceId: data.instance_id, // Ajout de l'instanceId pour Windows
+          os: os,
         },
       ]);
     } catch (err) {
@@ -66,16 +68,38 @@ function VM() {
     }
   };
 
+  const fetchWindowsCredentials = async (vm) => {
+    try {
+      const data = await postData(
+        'api/vm/windows-password', // URL de l'API pour récupérer le mot de passe Windows
+        {
+          instanceId: vm.instanceId, // ID de l'instance EC2
+          privateKeyPath: vm.ssh_private_key_path, // Chemin vers la clé privée
+        }
+      );
+
+      if (!data || !data.ip || !data.username || !data.password) {
+        throw new Error('Réponse invalide de l’API.');
+      }
+
+      alert(
+        `Accès RDP :\nIP : ${data.ip}\nUtilisateur : ${data.username}\nMot de passe : ${data.password}`
+      );
+    } catch (error) {
+      console.error(error);
+      alert('Impossible de récupérer les identifiants RDP.');
+    }
+  };
+
   const handleDeleteVm = async (index) => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.REACT_VM_API_URL}/api/vm/delete`, {
-        method: 'POST',
-      });
-
-      if (!response.ok) {
-        throw new Error('Erreur lors de la suppression de la VM.');
-      }
+      await postData(
+        'api/vm/delete',
+        {},
+        null,
+        null
+      );
 
       alert('VM supprimée avec succès.');
       const updatedVmList = [...vmList];
@@ -159,6 +183,27 @@ function VM() {
           ))}
         </div>
 
+        {os.startsWith('Windows') && (
+          <>
+            <h3>Nom d'utilisateur (Windows) :</h3>
+            <input
+              type="text"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Nom d'utilisateur"
+              disabled={loading}
+            />
+            <h3>Mot de passe (Windows) :</h3>
+            <input
+              type="password"
+              value={userPassword}
+              onChange={(e) => setUserPassword(e.target.value)}
+              placeholder="Mot de passe"
+              disabled={loading}
+            />
+          </>
+        )}
+
         <button className="btn primary" onClick={handleCreateVm} disabled={loading}>
           {loading ? 'Création en cours...' : 'Créer une VM'}
         </button>
@@ -169,14 +214,11 @@ function VM() {
         {vmList.map((vm, index) => (
           <li key={index} className="vm-item">
             <div>
-              <strong>IP :</strong>{' '}
-              <a href={`http://${vm.ip}`} target="_blank" rel="noopener noreferrer">
-                {vm.ip}
-              </a>
+              <strong>IP :</strong>{vm.ip}
               <button
                 className="btn secondary"
                 onClick={() => {
-                  window.location.href = `${process.env.REACT_VM_API_URL}/api/download-key?keyPath=${encodeURIComponent(
+                  window.location.href = `http://${process.env.REACT_APP_API_URL}/api/download-key?keyPath=${encodeURIComponent(
                     vm.ssh_private_key_path
                   )}`;
                 }}
@@ -184,6 +226,16 @@ function VM() {
               >
                 Télécharger la clé privée
               </button>
+              {vm.os.startsWith("Windows") && (
+                <button
+                  className="btn secondary"
+                  onClick={() => fetchWindowsCredentials(vm)}
+                  disabled={loading}
+                >
+                  Récupérer les identifiants RDP
+                </button>
+              )}
+              <DownloadVPNConfig vm={vm} />
               <p>{vm.output}</p>
             </div>
             <button

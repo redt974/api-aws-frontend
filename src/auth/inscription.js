@@ -1,18 +1,14 @@
 import React, { useState, useContext, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { postData } from '../services/api';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { AuthContext } from './authContext.js';
 import { validateLoginForm } from './validation.js';
-import MiddlewareAuth from './middleware.js';
 
 function Register() {
 
-  // Rediriger si l'utilisateur est déjà connecté
-  MiddlewareAuth();
-
-  // Extraction des fonctions logout et refreshToken depuis le contexte AuthContext
-  const { logout, refreshToken } = useContext(AuthContext);
+  // Extraction des fonctions login, logout et refreshToken depuis le contexte AuthContext
+  const { login, logout, refreshToken } = useContext(AuthContext);
 
   // State pour stocker les données du formulaire
   const [formData, setFormData] = useState({
@@ -25,6 +21,9 @@ function Register() {
   // State pour les messages d'erreur et de succès
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+
+  // Hook useNavigate pour naviguer entre les pages
+  const navigate = useNavigate();
 
   // Référence pour le reCAPTCHA
   const recaptcha = useRef();
@@ -57,15 +56,24 @@ function Register() {
 
     try {
       // Envoi des données du formulaire au serveur
-      const response = await postData('api/signin', { ...formData, captchaValue }, logout, refreshToken);
+      const response = await postData('api/signup', { ...formData, captchaValue }, logout, refreshToken);
 
-      if (response.status === 200) {
-        // Si la demande est réussie, affichage d'un message de succès
-        setMessage("Demande d'Inscription faite. Nous vous répondrons prochainement !");
-        setError('');
+      if (response?.status === 201) {
+        const token = response.accessToken;
+  
+        if (token) {
+          // Utilisation de la fonction login pour gérer le token
+          await login(token);
+  
+          setMessage("Inscription réussie. Vous êtes maintenant connecté !");
+          setError('');
+          navigate('/');
+        } else {
+          setError("Inscription réussie, mais aucun token reçu.");
+          setMessage('');
+        }
       } else {
-        // Si la réponse contient une erreur, affichage du message d'erreur
-        setError(response.error);
+        setError(response?.error || "Une erreur s'est produite lors de l'inscription.");
         setMessage('');
       }
     } catch (error) {

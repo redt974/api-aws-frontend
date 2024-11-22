@@ -13,16 +13,16 @@ export const refreshAuthToken = async (logout, setAuth) => {
   try {
     const response = await postData('api/refresh-token', {}, logout);
     if (response && response.token) {
-      localStorage.setItem('token', response.token);
+      localStorage.setItem('token', response.token); // Sauvegarder le nouveau token
       const decoded = jwtDecode(response.token);
-      setAuth({ user: { userId: decoded.userId, isAdmin: decoded.isAdmin }, token: response.token });
+      setAuth({ user: { userId: decoded.userId }, token: response.token });
       return response.token;
     } else {
       throw new Error('Impossible de rafraîchir le token');
     }
   } catch (error) {
     console.error('Erreur lors du rafraîchissement du token:', error.message || error);
-    logout(); // Appel à la fonction 'logout'
+    logout(); // Déconnexion en cas d'erreur
     return null;
   }
 };
@@ -38,7 +38,7 @@ const verifyRememberMeToken = async (logout) => {
     }
   } catch (error) {
     console.error('Erreur lors de la vérification du token Remember Me:', error.message || error);
-    logout(); // Appel à la fonction 'logout'
+    logout(); // Déconnexion en cas d'erreur
     return null;
   }
 };
@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({ user: null, token: null });
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
 
   // Fonction pour gérer la déconnexion
@@ -66,7 +65,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const decoded = jwtDecode(token);
         if (decoded.exp * 1000 > Date.now()) {
-          setAuth({ user: { userId: decoded.userId, isAdmin: decoded.isAdmin }, token });
+          setAuth({ user: { userId: decoded.userId }, token });
         } else {
           handleTokenExpiration();
         }
@@ -76,14 +75,14 @@ export const AuthProvider = ({ children }) => {
       }
     } else if (!deconnexion) {
       const rememberMeToken = localStorage.getItem('rememberMeToken'); // Token Remember Me
-      if(rememberMeToken){
+      if (rememberMeToken) {
         token = await verifyRememberMeToken(handleLogout);
         if (token) {
           localStorage.setItem('token', token);
           const decoded = jwtDecode(token);
-          setAuth({ user: { userId: decoded.userId, isAdmin: decoded.isAdmin }, token });
+          setAuth({ user: { userId: decoded.userId }, token });
         }
-      } 
+      }
     }
     setLoading(false);
   }, [handleLogout]);
@@ -93,7 +92,9 @@ export const AuthProvider = ({ children }) => {
   }, [checkAuth]);
 
   const handleTokenExpiration = () => {
-    setShowModal(true);
+    if (!window.location.pathname.includes('signin')) {
+      setShowModal(true);
+    }
   };
 
   // Fonction pour gérer la connexion
@@ -105,7 +106,9 @@ export const AuthProvider = ({ children }) => {
         token = credentialsOrToken;
         localStorage.setItem('token', token); // Assurez-vous de stocker le token
         const decoded = jwtDecode(token); // Décodez le token JWT pour récupérer les informations utilisateur
-        setAuth({ user: { userId: decoded.userId, isAdmin: decoded.isAdmin }, token }); // Mettez à jour l'état d'authentification
+        setAuth({ user: { userId: decoded.userId }, token }); // Mettez à jour l'état d'authentification
+        // Redirigez vers la page d'accueil
+        navigate('/');
       } else {
         const response = await postData('api/signin', credentialsOrToken, handleLogout);
         if (response) {
@@ -113,11 +116,7 @@ export const AuthProvider = ({ children }) => {
             token = response.accessToken;
             localStorage.setItem('token', token); // Stockez le token dans le localStorage
             const decoded = jwtDecode(token);
-            setAuth({ user: { userId: decoded.userId, isAdmin: decoded.isAdmin }, token });
-            setEmailSent(false);
-          } else if (response.message === "Nouvelle Connexion Détectée") {
-            setEmailSent(true);
-            throw new Error("Un email de confirmation a été envoyé.");
+            setAuth({ user: { userId: decoded.userId }, token });
           } else {
             throw new Error('Token non fourni par le serveur.');
           }
@@ -138,12 +137,6 @@ export const AuthProvider = ({ children }) => {
       setShowModal(false);
     }
   };
-
-  useEffect(() => {
-    if (emailSent) {
-      navigate('/success?message=Email de vérification envoyé ! Veuillez vérifier votre email pour confirmer cette connexion.');
-    }
-  }, [emailSent, navigate]);
 
   if (loading) {
     return <Loading />;

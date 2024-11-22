@@ -3,12 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { postData } from '../services/api';
 import { AuthContext } from './authContext.js';
 import Response from '../components/response';
-import MiddlewareAuth from './middleware.js';
+import { validatePassword } from './validation';
 
 const Reinitialisation = () => {
-
-  // Rediriger si l'utilisateur est déjà connecté
-  MiddlewareAuth();
 
   // Extraction des fonctions du contexte AuthContext
   const { logout, refreshToken } = useContext(AuthContext);
@@ -24,13 +21,13 @@ const Reinitialisation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
-  const token = params.get('token'); // Extraction du token de l'URL
+  const token = params.get('token');
 
   // Effet pour vérifier la présence d'un token dans l'URL et rediriger si nécessaire
   useEffect(() => {
     // Si aucun token n'est présent dans l'URL, rediriger vers la page d'accueil
     if (!token) {
-      navigate('/signin'); // Redirection vers la page de connexion si le token est absent
+      navigate('/signin');
     }
   }, [token, navigate]);
 
@@ -39,16 +36,22 @@ const Reinitialisation = () => {
     if (isSuccess) {
       const timer = setTimeout(() => {
         navigate('/');
-      }, 30000); // Temporisation de 30 secondes avant la redirection
-      return () => clearTimeout(timer); // Nettoyage du timer lors du démontage du composant
+      }, 10000); // Réduction du délai à 10 secondes
+      return () => clearTimeout(timer);
     }
   }, [isSuccess, navigate]);
 
   // Fonction pour gérer la soumission du formulaire de réinitialisation du mot de passe
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Vérification de la correspondance des mots de passe
+
+    const validationError = validatePassword(password);
+    if (validationError) {
+      setMessage('');
+      setError(validationError);
+      return;
+    }
+
     if (password !== confirmPassword) {
       setMessage('');
       setError('Les mots de passe ne correspondent pas.');
@@ -56,11 +59,10 @@ const Reinitialisation = () => {
     }
 
     try {
-      // Envoi des données de réinitialisation au serveur
-      const result = await postData('api/reinitialisation', { token, password }, logout, refreshToken);
+      const result = await postData('api/reset_mdp', { token, password }, logout, refreshToken);
 
       if (result.message) {
-        setIsSuccess(true); // Indique que la réinitialisation a réussi
+        setIsSuccess(true);
         setMessage(result.message);
         setError('');
       } else {

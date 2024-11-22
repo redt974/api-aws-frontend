@@ -6,12 +6,14 @@ import Connexion from './auth/connexion';
 import ReinitialisationMotDePasse from './auth/reinitialisation';
 import MotDePasseOublie from './auth/motdepasse_oublie';
 import { AuthProvider } from './auth/authContext';
-import ProtectedRoute from './auth/protectedRoutes';
 import ErrorBoundary from './Error/ErrorBoundary';
 import Error from './Error/index';
+import MiddlewareAuth from './auth/middleware'; 
 
+// Layout principal qui inclut le middleware
 const MainLayout = () => (
   <AuthProvider>
+    <MiddlewareAuth /> 
     <Outlet />
   </AuthProvider>
 );
@@ -20,7 +22,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainLayout />,
+      element: <MainLayout />, 
       errorElement: (
         <AuthProvider>
           <Error />
@@ -29,11 +31,7 @@ function App() {
       children: [
         {
           path: '/',
-          element: (
-            <ProtectedRoute>
-              <VM />
-            </ProtectedRoute>
-          ),
+          element: <VM />,
         },
         { path: '/signup', element: <Inscription /> },
         { path: '/signin', element: <Connexion /> },

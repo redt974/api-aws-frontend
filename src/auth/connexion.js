@@ -3,12 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { AuthContext } from './authContext';
 import { validateLoginForm } from './validation';
-import MiddlewareAuth from './middleware';
 
 function Connexion() {
-  // Rediriger si l'utilisateur est déjà connecté
-  MiddlewareAuth();
-
   // Utilisation du contexte AuthContext pour accéder à la fonction de connexion
   const { login } = useContext(AuthContext);
   
@@ -20,7 +16,6 @@ function Connexion() {
   });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [alertMessage, setAlertMessage] = useState(''); // Nouveau state pour gérer les alertes de nouvelle connexion
 
   // Hook useNavigate pour naviguer entre les pages
   const navigate = useNavigate();
@@ -73,13 +68,9 @@ function Connexion() {
     try {
       // Appel de la fonction de connexion avec les données du formulaire et la valeur du reCAPTCHA
       const response = await login({ ...formData, captchaValue });
-
-      if (response && response.message === 'Nouvelle Connexion Détectée') {
-        // Si le backend détecte une nouvelle connexion, informer l'utilisateur
-        setAlertMessage('Une nouvelle connexion a été détectée. Un email vous a été envoyé pour confirmer.');
-      } else {
-        navigate('/'); // Redirection vers la page d'accueil en cas de succès
-      }
+      setMessage(response || 'Connexion réussie.');
+      setError(''); 
+      navigate('/');
     } catch (error) {
       setMessage('');
       setError(error?.message || 'Une erreur inconnue est survenue.'); // Gestion des erreurs
@@ -133,7 +124,6 @@ function Connexion() {
       </form>
       {message && <p style={{ color: 'green' }}>{message}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {alertMessage && <p style={{ color: 'orange' }}>{alertMessage}</p>}
       <div className='switch-page'>
         <p>Vous n'avez pas de compte ?</p>
         <Link to="/signup">Inscription</Link>
