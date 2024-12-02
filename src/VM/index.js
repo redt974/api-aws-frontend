@@ -11,7 +11,7 @@ function VM() {
   const {
     os, setOs, software, setSoftware, extensions, setExtensions,
     userName, setUserName, userPassword, setUserPassword, vmList,
-    loading, handleCreateVm, fetchWindowsCredentials, handleDeleteVm
+    loading, message, error, handleCreateVm, fetchWindowsCredentials, handleDownloadSSH, handleDownloadVPN, handleDeleteVm
   } = VMHooks();
 
   const availableExtensions = [
@@ -41,7 +41,9 @@ function VM() {
       <VMOptions {...{ os, setOs, software, setSoftware, extensions, availableExtensions, handleAddExtension, handleRemoveExtension, loading }} />
       <VMForm {...{ os, userName, setUserName, userPassword, setUserPassword, handleCreateVm, loading }} />
       <h2>Liste des VMs</h2>
-      <VMList {...{ vmList, fetchWindowsCredentials, handleDeleteVm, loading }} />
+      <VMList {...{ vmList, os, fetchWindowsCredentials, handleDownloadVPN, handleDownloadSSH, handleDeleteVm, loading }} />
+      {message && <p style={{ color: 'green' }}>{message}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 }

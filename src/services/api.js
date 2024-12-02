@@ -11,7 +11,7 @@ const BACK_URL = process.env.REACT_APP_API_URL; // Récupération de l'URL de ba
  */
 
 // Fonction générique pour effectuer des requêtes API
-async function fetchData(path, method = 'GET', data = null, logout, refreshToken, customHeaders = {}) {
+export async function fetchData(path, method = 'GET', data = null, logout, refreshToken, customHeaders = {}, expectBlob = false) {
   try {
     // Construction de l'URL complète pour la requête
     const url = `http://${BACK_URL}/${path}`;
@@ -58,9 +58,7 @@ async function fetchData(path, method = 'GET', data = null, logout, refreshToken
       throw new Error(errorMessage); // Lancer une erreur avec le message d'erreur
     }
 
-    // Récupération et retour des données JSON de la réponse
-    const responseData = await response.json();
-    return { status: response.status, ...responseData };
+    return expectBlob ? response.blob() : response.json();
   } catch (error) {
     console.error('Erreur:', error.message || error); // Gestion des erreurs
     if (error.message && error.message.includes('Session expirée') && typeof logout === 'function') {

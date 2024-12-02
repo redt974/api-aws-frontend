@@ -6,7 +6,7 @@ function VMOptions({ os, setOs, software, setSoftware, extensions, availableExte
 
   return (
     <div className="options">
-      <h3>Choisissez un OS :</h3>
+      <h3>Choisissez l'OS :</h3>
       <div className="buttons-group">
         {osOptions.map((option) => (
           <button key={option} className={`btn ${os === option ? 'active' : ''}`} onClick={() => setOs(option)} disabled={loading}>
@@ -15,7 +15,7 @@ function VMOptions({ os, setOs, software, setSoftware, extensions, availableExte
         ))}
       </div>
 
-      <h3>Choisissez des logiciels :</h3>
+      <h3>Choisissez des Logiciels :</h3>
       <div className="buttons-group">
         {softwareOptions.map((option) => (
           <button
@@ -29,7 +29,7 @@ function VMOptions({ os, setOs, software, setSoftware, extensions, availableExte
         ))}
       </div>
 
-      <h3>Extensions VSCode :</h3>
+      <h3>Choisissez les Extensions VSCode :</h3>
       <div className="buttons-group">
         {availableExtensions.map((ext) => (
           <button

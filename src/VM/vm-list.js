@@ -1,21 +1,46 @@
 import React from 'react';
-import DownloadVPNConfig from '../components/download';
 
-function VMList({ vmList, fetchWindowsCredentials, handleDeleteVm, loading }) {
+function VMList({ vmList, os, fetchWindowsCredentials, handleDownloadVPN, handleDownloadSSH, handleDeleteVm, loading }) {
   return (
     <ul className="vm-list">
       {vmList.map((vm, index) => (
         <li key={index} className="vm-item">
-          <div>
-            <strong>IP :</strong> {vm.ip}
-            <button className="btn secondary" onClick={() => fetchWindowsCredentials(vm)} disabled={loading}>
-              Récupérer les identifiants RDP
-            </button>
-            <DownloadVPNConfig vm={vm} />
-            <p>{vm.output}</p>
-          </div>
-          <button className="btn danger" onClick={() => handleDeleteVm(index)} disabled={loading}>
-            Supprimer
+          <>
+            <p>IP : <strong>{vm.ip}</strong></p>
+            {os.startsWith('Windows') ? (
+              <button
+                className="btn secondary"
+                onClick={() => fetchWindowsCredentials(index)}
+                disabled={loading}
+              >
+                {loading ? "Récupération en cours..." : "Récupérer les identifiants RDP"}
+              </button>
+            ) : (
+              <>
+                <button
+                  className="btn secondary"
+                  onClick={() => handleDownloadSSH(index)}
+                  disabled={loading}
+                >
+                  {loading ? "Téléchargement en cours..." : "Télécharger la Clé SSH"}
+                </button>
+                <button
+                  className="btn secondary"
+                  onClick={() => handleDownloadVPN(index)}
+                  disabled={loading}
+                >
+                  {loading ? "Téléchargement en cours..." : "Télécharger le fichier VPN"}
+                </button>
+              </>
+            )}
+            <p>{vm.message}</p>
+          </>
+          <button
+            className="btn danger"
+            onClick={() => handleDeleteVm(index)}
+            disabled={loading}
+          >
+            {loading ? "Suppression en cours..." : "Supprimer"}
           </button>
         </li>
       ))}
