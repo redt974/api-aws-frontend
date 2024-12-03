@@ -1,6 +1,7 @@
 import React from 'react';
 
-function VMList({ vmList, os, fetchWindowsCredentials, handleDownloadVPN, handleDownloadSSH, handleDeleteVm, loading }) {
+function VMList({ vmList, os, fetchWindowsCredentials, handleDownloadSSH, handleDeleteVm, loading }) {
+
   return (
     <ul className="vm-list">
       {vmList.map((vm, index) => (
@@ -13,7 +14,7 @@ function VMList({ vmList, os, fetchWindowsCredentials, handleDownloadVPN, handle
                 onClick={() => fetchWindowsCredentials(index)}
                 disabled={loading}
               >
-                {loading ? "Récupération en cours..." : "Récupérer les identifiants RDP"}
+                Récupérer les identifiants RDP
               </button>
             ) : (
               <>
@@ -22,14 +23,7 @@ function VMList({ vmList, os, fetchWindowsCredentials, handleDownloadVPN, handle
                   onClick={() => handleDownloadSSH(index)}
                   disabled={loading}
                 >
-                  {loading ? "Téléchargement en cours..." : "Télécharger la Clé SSH"}
-                </button>
-                <button
-                  className="btn secondary"
-                  onClick={() => handleDownloadVPN(index)}
-                  disabled={loading}
-                >
-                  {loading ? "Téléchargement en cours..." : "Télécharger le fichier VPN"}
+                  Télécharger la Clé SSH
                 </button>
               </>
             )}

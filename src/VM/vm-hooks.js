@@ -142,7 +142,7 @@ export default function VMHooks() {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `${vm.user_email}-vm-${vm.instance_id}-id_rsa.key`;
+            a.download = `${vm.user_email}-vm-${vm.instance_id}-id_rsa.pem`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -151,37 +151,6 @@ export default function VMHooks() {
             setMessage("Téléchargement du SSH réussi.");
         } catch (error) {
             console.error("Erreur lors du téléchargement du fichier SSH :", error.message);
-            setError("Une erreur est survenue lors du téléchargement : " + error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleDownloadVPN = async (index) => {
-        const vm = vmList[index];
-        if (!vm || !vm.vm_id || !vm.user_id) {
-            setError("VM invalide pour le téléchargement du VPN.");
-            return;
-        }
-    
-        setLoading(true);
-    
-        try {
-            // Passer expectBlob à true pour récupérer le fichier comme Blob
-            const blob = await fetchData(`api/vm/download-vpn/${vm.user_id}/${vm.vm_id}`, 'GET', null, null, null, {}, true);
-
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${vm.user_email}-vm-${vm.instance_id}.ovpn`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            
-            setMessage("Téléchargement du VPN réussi.");
-        } catch (error) {
-            console.error("Erreur lors du téléchargement du fichier VPN :", error.message);
             setError("Une erreur est survenue lors du téléchargement : " + error.message);
         } finally {
             setLoading(false);
@@ -231,7 +200,6 @@ export default function VMHooks() {
         handleCreateVm,
         fetchWindowsCredentials,
         handleDownloadSSH,
-        handleDownloadVPN,
         handleDeleteVm
     };
 }
