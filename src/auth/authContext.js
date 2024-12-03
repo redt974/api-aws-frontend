@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; 
 import { postData } from '../services/api';
 import Expires from '../components/expires';
@@ -48,7 +47,6 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({ user: null, token: null });
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   // Fonction pour gérer la déconnexion
   const handleLogout = useCallback(() => {
@@ -92,9 +90,7 @@ export const AuthProvider = ({ children }) => {
   }, [checkAuth]);
 
   const handleTokenExpiration = () => {
-    if (!window.location.pathname.includes('signin')) {
-      setShowModal(true);
-    }
+    setShowModal(true);
   };
 
   // Fonction pour gérer la connexion
@@ -107,8 +103,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', token); // Assurez-vous de stocker le token
         const decoded = jwtDecode(token); // Décodez le token JWT pour récupérer les informations utilisateur
         setAuth({ user: { userId: decoded.userId }, token }); // Mettez à jour l'état d'authentification
-        // Redirigez vers la page d'accueil
-        navigate('/');
       } else {
         const response = await postData('api/signin', credentialsOrToken, handleLogout);
         if (response) {
