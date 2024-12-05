@@ -1,6 +1,6 @@
 import React from 'react';
 
-function VMList({ vmList, os, fetchWindowsCredentials, handleDownloadSSH, handleDeleteVm, loading }) {
+function VMList({ vmList, os, fetchWindowsCredentials, handleDownloadSSH, handleDownloadVPN, handleDeleteVm, loading }) {
 
   return (
     <ul className="vm-list">
@@ -24,6 +24,13 @@ function VMList({ vmList, os, fetchWindowsCredentials, handleDownloadSSH, handle
                   disabled={loading}
                 >
                   Télécharger la Clé SSH
+                </button>
+                <button
+                  className="btn secondary"
+                  onClick={() => handleDownloadVPN(index)}
+                  disabled={loading}
+                >
+                  Télécharger le Client VPN
                 </button>
               </>
             )}
