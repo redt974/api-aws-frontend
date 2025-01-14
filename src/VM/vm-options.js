@@ -2,8 +2,31 @@ import React from 'react';
 
 function VMOptions({ os, setOs, software, setSoftware, extensions, availableExtensions, handleAddExtension, handleRemoveExtension, loading }) {
   const osOptions = ['Ubuntu', 'Debian', 'Kali', 'Windows 10', 'Windows 11'];
-  const softwareOptions = ['Node.js', 'MySQL', 'Python'];
-
+  const softwareOptions = [
+    'Node.js',
+    'MySQL',
+    'Python',
+    'XAMPP',
+    'Docker',
+    'Java',
+    'Maven',
+    'C/C++ development tools',
+    '.NET SDK',
+    'Docker Compose',
+    'Apache web server',
+    'PHP',
+    'Composer',
+    'Slack',
+    'Discord',
+    'VirtualBox',
+    'Ansible',
+    'Zoom',
+    'Android Studio',
+    'Postman',
+    'IntelliJ IDEA',
+    'Jenkins'
+  ];
+  
   return (
     <div className="options">
       <h3>Choisissez l'OS :</h3>

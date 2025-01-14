@@ -53,8 +53,8 @@ export default function VMHooks() {
             return;
         }
 
-        if (os.startsWith("Windows") && (!userName || !userPassword)) {
-            setError("Veuillez fournir un nom d'utilisateur et un mot de passe pour Windows.");
+        if (!userName || !userPassword) {
+            setError("Veuillez fournir un nom d'utilisateur et un mot de passe.");
             return;
         }
 

@@ -18,10 +18,39 @@ function VM() {
     { name: 'Python', value: 'ms-python.python' },
     { name: 'Prettier', value: 'esbenp.prettier-vscode' },
     { name: 'ESLint', value: 'dbaeumer.vscode-eslint' },
-    { name: 'Docker', value: 'PeterJausovec.vscode-docker' },
+    { name: 'Docker', value: 'ms-azuretools.vscode-docker' },
     { name: 'GitLens', value: 'eamodio.gitlens' },
+    { name: 'Java', value: 'vscjava.vscode-java-pack' },
+    { name: 'Jest', value: 'dsznajder.es7-react-js-snippets' },
+    { name: 'GitHub', value: 'GitHub.copilot' },
+    { name: 'vscode-icons', value: 'vscode-icons-team.vscode-icons' },
+    { name: 'Visual Studio Code Git Graph', value: 'mhutchie.git-graph' },
+    { name: 'Path Intellisense', value: 'christian-kohler.path-intellisense' },
+    { name: 'Prettier ESLint Integration', value: 'esbenp.prettier-vscode-eslint' },
+    { name: 'TabNine', value: 'codota.tabnine-vscode' },
+    { name: 'vscode-npm-script', value: 'formulahendry.vscode-npm-script' },
+    { name: 'Jupyter', value: 'ms-toolsai.jupyter' },
+    { name: 'Visual Studio IntelliCode', value: 'VisualStudioExptTeam.vscodeintellicode' },
+    { name: 'vscode-html-css', value: 'ecmel.vscode-html-css' },
+    { name: 'Bracket Pair Colorizer', value: 'coenraads.bracket-pair-colorizer' },
+    { name: 'Prettier for GraphQL', value: 'GraphQL.vscode-graphql' },
+    { name: 'Live Server', value: 'ritwickdey.LiveServer' },
+    { name: 'EditorConfig for VS Code', value: 'EditorConfig.EditorConfig' },
+    { name: 'Material Icon Theme', value: 'PKief.material-icon-theme' },
+    { name: 'JavaScript (ES6) code snippets', value: 'xabikos.JavaScriptSnippets' },
+    { name: 'SQL Server', value: 'ms-mssql.mssql' },
+    { name: 'Azure Functions', value: 'ms-azuretools.vscode-azurefunctions' },
+    { name: 'Rust', value: 'rust-lang.rust' },
+    { name: 'XML', value: 'DotJoshJohnson.xml' },
+    { name: 'Dart', value: 'Dart-Code.flutter' },
+    { name: 'Kubernetes', value: 'ms-kubernetes-tools.vscode-kubernetes-tools' },
+    { name: 'JavaScript (ES6) snippets', value: 'xabikos.JavaScriptSnippets' },
+    { name: 'Debugger for Chrome', value: 'msjsdiag.debugger-for-chrome' },
+    { name: 'Java Language Support', value: 'redhat.java' },
+    { name: 'C#', value: 'ms-dotnettools.csharp' },
+    { name: 'JavaScript (ES6) snippets', value: 'xabikos.JavaScriptSnippets' }
   ];
-
+  
   const handleAddExtension = (extension) => {
     setExtensions((prevExtensions) => {
       if (!prevExtensions.includes(extension)) {
