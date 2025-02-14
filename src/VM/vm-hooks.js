@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchData, getData, postData } from "../services/api.js";
+import io from "socket.io-client";
 
 export default function VMHooks() {
     const [os, setOs] = useState(localStorage.getItem("new-vm-os") || "");
@@ -10,10 +11,28 @@ export default function VMHooks() {
     const [vmList, setVmList] = useState(() => {
         const storedVmList = localStorage.getItem("vmList");
         return storedVmList ? JSON.parse(storedVmList) : [];
-    });    
+    });
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    
+    const [progress, setProgress] = useState("");
+    const [socket, setSocket] = useState(null);
+
+    useEffect(() => {
+        const newSocket = io(`http://localhost:3002`);
+        setSocket(newSocket);
+
+        newSocket.on("progress", (message) => {
+            setProgress((prev) => prev + "\n" + message);
+        });
+
+        return () => {
+            newSocket.off("progress");
+            newSocket.disconnect();
+        };
+    }, []);
+
 
     // Sauvegarde des sélections dans le localStorage dès qu'elles changent
     useEffect(() => {
@@ -69,7 +88,8 @@ export default function VMHooks() {
                 extensions: normalizedExtensions,
                 user_name: userName,
                 user_password: userPassword,
-            });
+            },
+                socket.id);
 
             if (!data.ip || !data.ssh_private_key) {
                 setError("Réponse invalide de l’API.");
@@ -132,9 +152,9 @@ export default function VMHooks() {
             setError("VM invalide pour le téléchargement du SSH.");
             return;
         }
-    
+
         setLoading(true);
-    
+
         try {
             // Passer expectBlob à true pour récupérer le fichier comme Blob
             const blob = await fetchData(`api/vm/download-ssh/${vm.user_id}/${vm.vm_id}`, 'GET', null, null, null, {}, true);
@@ -147,7 +167,7 @@ export default function VMHooks() {
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
-            
+
             setMessage("Téléchargement du SSH réussi.");
         } catch (error) {
             console.error("Erreur lors du téléchargement du fichier SSH :", error.message);
@@ -163,9 +183,9 @@ export default function VMHooks() {
             setError("VM invalide pour le téléchargement du VPN.");
             return;
         }
-    
+
         setLoading(true);
-    
+
         try {
             // Passer expectBlob à true pour récupérer le fichier comme Blob
             const blob = await fetchData(`api/vm/download-vpn/${vm.user_id}/${vm.vm_id}`, 'GET', null, null, null, {}, true);
@@ -177,7 +197,7 @@ export default function VMHooks() {
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
-            
+
             setMessage("Téléchargement du VPN réussi.");
         } catch (error) {
             console.error("Erreur lors du téléchargement du fichier VPN :", error.message);
@@ -186,7 +206,7 @@ export default function VMHooks() {
             setLoading(false);
         }
     };
-    
+
     const handleDeleteVm = async (index) => {
         const vm = vmList[index];
         if (!vm || !vm.vm_id) {
@@ -224,6 +244,7 @@ export default function VMHooks() {
         vmList,
         setVmList,
         loading,
+        progress,
         message,
         error,
         setLoading,

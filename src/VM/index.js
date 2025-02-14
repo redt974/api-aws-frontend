@@ -5,13 +5,14 @@ import VMForm from './vm-form';
 import VMList from './vm-list';
 import VMHooks from './vm-hooks';
 import MiddlewareAuth from '../auth/middleware.js';
+import Progress from '../components/progress/index.js';
 
 function VM() {
   MiddlewareAuth();
   const {
     os, setOs, software, setSoftware, extensions, setExtensions,
     userName, setUserName, userPassword, setUserPassword, vmList,
-    loading, message, error, handleCreateVm, fetchWindowsCredentials, handleDownloadSSH, handleDownloadVPN, handleDeleteVm
+    loading, progress, message, error, handleCreateVm, fetchWindowsCredentials, handleDownloadSSH, handleDownloadVPN, handleDeleteVm
   } = VMHooks();
 
   const availableExtensions = [
@@ -64,11 +65,15 @@ function VM() {
     setExtensions(extensions.filter((ext) => ext !== extension));
   };
 
+  if(progress !== undefined){
+    return (<Progress progress={progress}/>);
+  }
+
   return (
     <div className="VM">
       <h1>Gestionnaire de VMs AWS</h1>
       <VMOptions {...{ os, setOs, software, setSoftware, extensions, availableExtensions, handleAddExtension, handleRemoveExtension, loading }} />
-      <VMForm {...{ os, userName, setUserName, userPassword, setUserPassword, handleCreateVm, loading }} />
+      <VMForm {...{ userName, setUserName, userPassword, setUserPassword, handleCreateVm, loading }} />
       <h2>Liste des VMs</h2>
       <VMList {...{ vmList, os, fetchWindowsCredentials, handleDownloadSSH, handleDownloadVPN, handleDeleteVm, loading }} />
       {message && <p style={{ color: 'green' }}>{message}</p>}

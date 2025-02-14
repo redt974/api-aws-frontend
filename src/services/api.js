@@ -30,7 +30,7 @@ export async function fetchData(path, method = 'GET', data = null, logout, refre
     let options = {
       method: method, // Méthode de la requête (GET, POST, etc.)
       headers: headers, // En-têtes de la requête
-      credentials: 'include', // Inclusion des cookies dans la requête
+      // credentials: 'include', // Inclusion des cookies dans la requête
     };
 
     // Ajout du corps de la requête pour les requêtes POST
@@ -103,12 +103,12 @@ async function refreshTokenAndRetry(path, options, logout, refreshToken) {
 }
 
 // Fonction pour les requêtes POST
-export async function postData(path, data, logout, refreshToken) {
-  return fetchData(path, 'POST', data, logout, refreshToken); // Appel de la fonction générique avec la méthode POST
+export async function postData(path, data, logout, refreshToken, customHeaders = {}) {
+  return fetchData(path, 'POST', data, logout, refreshToken, customHeaders); // Appel de la fonction générique avec la méthode POST
 }
 
 // Fonction pour les requêtes GET
-export async function getData(path, logout, refreshToken) {
-  return fetchData(path, 'GET', null, logout, refreshToken); // Appel de la fonction générique avec la méthode GET
+export async function getData(path, logout, refreshToken, customHeaders = {}) {
+  return fetchData(path, 'GET', null, logout, refreshToken, customHeaders); // Appel de la fonction générique avec la méthode GET
 }
 

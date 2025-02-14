@@ -80,40 +80,42 @@ const Reinitialisation = () => {
   }
 
   return (
-    <div className='formulaire resetmdp'>
-      <h2>Réinitialisation du mot de passe</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="password">Nouveau mot de passe :</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          autoComplete="off"
-          tabIndex={1}
-          autoFocus
-          autoCapitalize="none"
-          spellCheck="false"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <label htmlFor="confirm_password">Confirmer mot de passe :</label>
-        <input
-          type="password"
-          id="confirm_password"
-          name="confirm_password"
-          autoComplete="off"
-          tabIndex={2}
-          autoCapitalize="none"
-          spellCheck="false"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Réinitialiser le mot de passe</button>
-      </form>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className='Reinitialisation'>
+      <div className='formulaire resetmdp'>
+        <h2>Réinitialisation du mot de passe</h2>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="password">Nouveau mot de passe :</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            autoComplete="off"
+            tabIndex={1}
+            autoFocus
+            autoCapitalize="none"
+            spellCheck="false"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <label htmlFor="confirm_password">Confirmer mot de passe :</label>
+          <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            autoComplete="off"
+            tabIndex={2}
+            autoCapitalize="none"
+            spellCheck="false"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Réinitialiser le mot de passe</button>
+        </form>
+        {message && <p style={{ color: 'green' }}>{message}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </div>
     </div>
   );
 };

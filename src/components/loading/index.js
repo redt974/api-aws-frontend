@@ -3,7 +3,7 @@ import './index.css'
 
 function Loading() {
   return (
-    <div className='loading'>
+    <div>
       <div className="loader-wrapper">
           <div className="loader"></div>
           <p>Chargement ...</p>

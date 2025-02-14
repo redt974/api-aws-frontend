@@ -1,4 +1,4 @@
-.loader-wrapper {
+.progress-wrapper {
     position: fixed;
     inset: 0;
     display: flex;
@@ -7,8 +7,8 @@
     align-items: center;
 }
 
-.loader {
-    border: 12px solid #fff;
+.progress {
+    border: 12px solid #fff; /* Fix: Définit une couleur réelle */
     border-top: 12px solid #ff9d0a;
     border-radius: 50%;
     width: 100px;
@@ -18,16 +18,11 @@
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-.loader-wrapper p {
+.progress-wrapper p {
     margin-top: 20px;
     font-size: 25px;
     font-weight: 800;

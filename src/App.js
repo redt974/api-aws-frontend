@@ -9,6 +9,7 @@ import { AuthProvider } from './auth/authContext';
 import ErrorBoundary from './Error/ErrorBoundary';
 import Error from './Error/index';
 import MiddlewareAuth from './auth/middleware'; 
+import Loading from './components/loading';
 
 // Layout principal qui inclut le middleware
 const MainLayout = () => (

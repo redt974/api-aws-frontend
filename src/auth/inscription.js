@@ -60,11 +60,11 @@ function Register() {
 
       if (response?.status === 201) {
         const token = response.accessToken;
-  
+
         if (token) {
           // Utilisation de la fonction login pour gérer le token
           await login(token);
-  
+
           setMessage("Inscription réussie. Vous êtes maintenant connecté !");
           setError('');
           navigate('/');
@@ -85,24 +85,28 @@ function Register() {
   };
 
   return (
-    <div className='formulaire inscription'>
-      <h2>Inscription</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="nom">Nom :</label>
-        <input type="text" name="nom" autoComplete="off" tabIndex={1} autoFocus autoCapitalize="none" spellCheck="false" placeholder="Nom" value={formData.nom} onChange={handleChange} required />
-        <label htmlFor="prenom">Prénom :</label>
-        <input type="text" name="prenom" placeholder="Prénom" autoComplete="off" tabIndex={2} autoCapitalize="none" spellCheck="false" value={formData.prenom} onChange={handleChange} required />
-        <label htmlFor="email">Email :</label>
-        <input type="email" name="email" autoComplete="off" tabIndex={3} autoCapitalize="none" spellCheck="false" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        <label htmlFor="mot_de_passe">Mot de Passe :</label>
-        <input type="password" name="mot_de_passe" autoComplete="off" tabIndex={4} autoCapitalize="none" spellCheck="false" placeholder="Mot de passe" value={formData.mot_de_passe} onChange={handleChange} required />
-        <ReCAPTCHA ref={recaptcha} tabIndex={6} sitekey={process.env.REACT_APP_CAPTCHA_KEY} />
-        <button type="submit" tabIndex={7}>S'inscrire</button>
-      </form>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p>Vous avez déjà un compte ?</p>
-      <Link to="/signin">Connectez-vous !</Link>
+    <div className='Inscription'>
+      <div className='formulaire inscription'>
+        <h2>Inscription</h2>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="nom">Nom :</label>
+          <input type="text" name="nom" autoComplete="off" tabIndex={1} autoFocus autoCapitalize="none" spellCheck="false" placeholder="Nom" value={formData.nom} onChange={handleChange} required />
+          <label htmlFor="prenom">Prénom :</label>
+          <input type="text" name="prenom" placeholder="Prénom" autoComplete="off" tabIndex={2} autoCapitalize="none" spellCheck="false" value={formData.prenom} onChange={handleChange} required />
+          <label htmlFor="email">Email :</label>
+          <input type="email" name="email" autoComplete="off" tabIndex={3} autoCapitalize="none" spellCheck="false" placeholder="Email" value={formData.email} onChange={handleChange} required />
+          <label htmlFor="mot_de_passe">Mot de Passe :</label>
+          <input type="password" name="mot_de_passe" autoComplete="off" tabIndex={4} autoCapitalize="none" spellCheck="false" placeholder="Mot de passe" value={formData.mot_de_passe} onChange={handleChange} required />
+          <ReCAPTCHA ref={recaptcha} tabIndex={6} sitekey={process.env.REACT_APP_CAPTCHA_KEY} />
+          <button type="submit" tabIndex={7}>S'inscrire</button>
+          {message && <p style={{ color: 'green' }}>{message}</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <div className='switch-page'>
+            <p>Vous avez déjà un compte ?</p>
+            <Link to="/signin">Connectez-vous !</Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

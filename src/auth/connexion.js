@@ -7,7 +7,7 @@ import { validateLoginForm } from './validation';
 function Connexion() {
   // Utilisation du contexte AuthContext pour accéder à la fonction de connexion
   const { login } = useContext(AuthContext);
-  
+
   // États locaux pour gérer les données du formulaire, les messages d'erreur et d'alerte
   const [formData, setFormData] = useState({
     email: '',
@@ -19,7 +19,7 @@ function Connexion() {
 
   // Hook useNavigate pour naviguer entre les pages
   const navigate = useNavigate();
-  
+
   // Référence pour le reCAPTCHA
   const recaptcha = useRef(null);
 
@@ -35,7 +35,7 @@ function Connexion() {
   const handleCheckboxChange = (e) => {
     setFormData({
       ...formData,
-      rememberMe: e.target.checked 
+      rememberMe: e.target.checked
     });
   };
 
@@ -69,7 +69,7 @@ function Connexion() {
       // Appel de la fonction de connexion avec les données du formulaire et la valeur du reCAPTCHA
       const response = await login({ ...formData, captchaValue });
       setMessage(response || 'Connexion réussie.');
-      setError(''); 
+      setError('');
       navigate('/');
     } catch (error) {
       setMessage('');
@@ -78,55 +78,57 @@ function Connexion() {
   };
 
   return (
-    <div className='formulaire connexion'>
-      <h2>Connexion</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email :</label>
-        <input 
-          type="email" 
-          name="email" 
-          placeholder="Email" 
-          autoComplete="off"
-          tabIndex={1}
-          autoFocus
-          autoCapitalize="none"
-          spellCheck="false"
-          value={formData.email} 
-          onChange={handleChange} 
-          required 
-        />
-        <label htmlFor="password">Mot de passe :</label>
-        <input 
-          type="password" 
-          name="mot_de_passe" 
-          autoComplete="off"
-          tabIndex={2}
-          autoCapitalize="none"
-          spellCheck="false"
-          placeholder="Mot de passe" 
-          value={formData.mot_de_passe} 
-          onChange={handleChange} 
-          required 
-        />
-        <Link to="/forgot_mdp">Mot de passe oublié ?</Link>
-        <div className='rememberMe' onClick={handleClick}>
-          <input 
-            type="checkbox" 
-            name="rememberMe" 
-            tabIndex={3}
-            checked={formData.rememberMe} 
-            onChange={handleCheckboxChange} 
+    <div className='Connexion'>
+      <div className='formulaire connexion'>
+        <h2>Connexion</h2>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Email :</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            autoComplete="off"
+            tabIndex={1}
+            autoFocus
+            autoCapitalize="none"
+            spellCheck="false"
+            value={formData.email}
+            onChange={handleChange}
+            required
           />
-          <label htmlFor="rememberMe">Rester connecté</label>
-        </div>
-        <ReCAPTCHA ref={recaptcha} tabIndex={4} sitekey={process.env.REACT_APP_CAPTCHA_KEY} />
-        <button type="submit" tabIndex={5}>Se connecter</button>
-      </form>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div className='switch-page'>
-        <p>Vous n'avez pas de compte ?</p>
-        <Link to="/signup">Inscription</Link>
+          <label htmlFor="password">Mot de passe :</label>
+          <input
+            type="password"
+            name="mot_de_passe"
+            autoComplete="off"
+            tabIndex={2}
+            autoCapitalize="none"
+            spellCheck="false"
+            placeholder="Mot de passe"
+            value={formData.mot_de_passe}
+            onChange={handleChange}
+            required
+          />
+          <Link to="/forgot_mdp">Mot de passe oublié ?</Link>
+          <div className='rememberMe' onClick={handleClick}>
+            <input
+              type="checkbox"
+              name="rememberMe"
+              tabIndex={3}
+              checked={formData.rememberMe}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor="rememberMe">Rester connecté</label>
+          </div>
+          <ReCAPTCHA ref={recaptcha} tabIndex={4} sitekey={process.env.REACT_APP_CAPTCHA_KEY} />
+          <button type="submit" tabIndex={5}>Se connecter</button>
+          {message && <p style={{ color: 'green' }}>{message}</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <div className='switch-page'>
+            <p>Vous n'avez pas de compte ?</p>
+            <Link to="/signup">Inscription</Link>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -11,12 +11,12 @@ const MotDePasseOublie = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-  
+
   // Hook pour la navigation programmatique
   const navigate = useNavigate();
-  
+
   // Extraction des fonctions logout et refreshToken depuis le contexte AuthContext
-  const { logout, refreshToken } = useContext(AuthContext); 
+  const { logout, refreshToken } = useContext(AuthContext);
 
   // Effet pour rediriger vers la page d'accueil si un token est présent
   useEffect(() => {
@@ -29,11 +29,11 @@ const MotDePasseOublie = () => {
   // Fonction pour gérer la soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       // Envoi de la demande de réinitialisation du mot de passe
       const result = await postData('api/forgot_mdp', { email }, logout, refreshToken);
-      
+
       // Traitement de la réponse du serveur
       if (result.message) {
         setIsSuccess(true);
@@ -55,28 +55,30 @@ const MotDePasseOublie = () => {
 
   // Rendu du formulaire de demande de réinitialisation du mot de passe
   return (
-    <div className='formulaire motdepasseoublie'>
-      <h2>Mot de passe Oublié ?</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Entrez votre adresse email :</label>
-        <input 
-          type="email" 
-          id="email" 
-          name="email" 
-          autoComplete="off"
-          tabIndex={1}
-          autoFocus
-          autoCapitalize="none"
-          spellCheck="false"
-          value={email} 
-          placeholder='Email' 
-          onChange={(e) => setEmail(e.target.value)} 
-          required 
-        />
-        <button type="submit" tabIndex={2}>Envoyer</button>
-      </form>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className='MotdepasseOublie'>
+      <div className='formulaire motdepasseoublie'>
+        <h2>Mot de passe Oublié ?</h2>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Entrez votre adresse email :</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autoComplete="off"
+            tabIndex={1}
+            autoFocus
+            autoCapitalize="none"
+            spellCheck="false"
+            value={email}
+            placeholder='Email'
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <button type="submit" tabIndex={2}>Envoyer</button>
+        </form>
+        {message && <p style={{ color: 'green' }}>{message}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </div>
     </div>
   );
 };
