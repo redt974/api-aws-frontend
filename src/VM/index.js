@@ -65,7 +65,7 @@ function VM() {
     setExtensions(extensions.filter((ext) => ext !== extension));
   };
 
-  if(progress !== undefined){
+  if(progress !== "" && loading){
     return (<Progress progress={progress}/>);
   }
 
@@ -76,8 +76,8 @@ function VM() {
       <VMForm {...{ userName, setUserName, userPassword, setUserPassword, handleCreateVm, loading }} />
       <h2>Liste des VMs</h2>
       <VMList {...{ vmList, os, fetchWindowsCredentials, handleDownloadSSH, handleDownloadVPN, handleDeleteVm, loading }} />
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {message && <div className='message'><p style={{ color: 'green' }}>{message}</p></div>}
+      {error && <div className='error'><p style={{ color: 'red' }}>Erreur : {error}</p></div>}
     </div>
   );
 }

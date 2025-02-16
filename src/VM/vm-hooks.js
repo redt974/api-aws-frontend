@@ -91,7 +91,7 @@ export default function VMHooks() {
             },
                 socket.id);
 
-            if (!data.ip || !data.ssh_private_key) {
+            if (!data.ip) {
                 setError("Réponse invalide de l’API.");
                 return;
             }
@@ -102,7 +102,6 @@ export default function VMHooks() {
                 user_email: data.user_email,
                 instance_id: data.instance_id,
                 ip: data.ip,
-                ssh_private_key: data.ssh_private_key,
                 message: data.message,
             };
 

@@ -85,24 +85,51 @@ body {
   padding: 0;
 }
 
-.vm-item {
+.vm-item{
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.vm-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f9f9f9;
   padding: 1rem;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
 }
 
-.vm-item a {
+.vm-info a {
   color: #007bff;
   text-decoration: none;
 }
 
-.vm-item a:hover {
+.vm-info a:hover {
   text-decoration: underline;
+}
+
+.ssh-command{
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.ssh-command pre{
+  background: #ddd;
+  border-radius: 5px;
+  color: #333;
+  padding: 10px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.message, .error{
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 0 1rem;
 }
 
 /* Mobile responsive */
