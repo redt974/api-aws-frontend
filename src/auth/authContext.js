@@ -14,7 +14,7 @@ export const refreshAuthToken = async (logout, setAuth) => {
     if (response && response.token) {
       localStorage.setItem('token', response.token); // Sauvegarder le nouveau token
       const decoded = jwtDecode(response.token);
-      setAuth({ user: { userId: decoded.userId }, token: response.token });
+      setAuth({ user: { id: decoded.id }, token: response.token });
       return response.token;
     } else {
       throw new Error('Impossible de rafraîchir le token');
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const decoded = jwtDecode(token);
         if (decoded.exp * 1000 > Date.now()) {
-          setAuth({ user: { userId: decoded.userId }, token });
+          setAuth({ user: { id: decoded.id }, token });
         } else {
           handleTokenExpiration();
         }
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
         if (token) {
           localStorage.setItem('token', token);
           const decoded = jwtDecode(token);
-          setAuth({ user: { userId: decoded.userId }, token });
+          setAuth({ user: { id: decoded.id }, token });
         }
       }
     }
@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }) => {
         token = credentialsOrToken;
         localStorage.setItem('token', token); // Assurez-vous de stocker le token
         const decoded = jwtDecode(token); // Décodez le token JWT pour récupérer les informations utilisateur
-        setAuth({ user: { userId: decoded.userId }, token }); // Mettez à jour l'état d'authentification
+        setAuth({ user: { id: decoded.id }, token }); // Mettez à jour l'état d'authentification
       } else {
         const response = await postData('api/signin', credentialsOrToken, handleLogout);
         if (response) {
@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }) => {
             token = response.accessToken;
             localStorage.setItem('token', token); // Stockez le token dans le localStorage
             const decoded = jwtDecode(token);
-            setAuth({ user: { userId: decoded.userId }, token });
+            setAuth({ user: { id: decoded.id }, token });
           } else {
             throw new Error('Token non fourni par le serveur.');
           }

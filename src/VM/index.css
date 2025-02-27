@@ -28,7 +28,7 @@ body {
 }
 
 .buttons-group {
-  width: 45vw;
+  /* width: 45vw; */
   padding: 0 100px;
   display: flex;
   justify-content: center;

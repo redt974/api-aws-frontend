@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { AuthContext } from './authContext';
 import { validateLoginForm } from './validation';
+import Google from '../components/google';
 
 function Connexion() {
   // Utilisation du contexte AuthContext pour accéder à la fonction de connexion
@@ -130,6 +131,7 @@ function Connexion() {
           </div>
         </form>
       </div>
+      <Google/>
     </div>
   );
 }

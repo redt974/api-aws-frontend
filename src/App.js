@@ -8,12 +8,13 @@ import MotDePasseOublie from './auth/motdepasse_oublie';
 import { AuthProvider } from './auth/authContext';
 import ErrorBoundary from './Error/ErrorBoundary';
 import Error from './Error/index';
-import MiddlewareAuth from './auth/middleware'; 
+import MiddlewareAuth from './auth/middleware';
+import GoogleRedirect from './components/google/redirect';
 
 // Layout principal qui inclut le middleware
 const MainLayout = () => (
   <AuthProvider>
-    <MiddlewareAuth /> 
+    <MiddlewareAuth />
     <Outlet />
   </AuthProvider>
 );
@@ -22,7 +23,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainLayout />, 
+      element: <MainLayout />,
       errorElement: (
         <AuthProvider>
           <Error />
@@ -37,6 +38,7 @@ function App() {
         { path: '/signin', element: <Connexion /> },
         { path: '/forgot_mdp', element: <MotDePasseOublie /> },
         { path: '/reset_mdp', element: <ReinitialisationMotDePasse /> },
+        { path: '/auth/google/redirect', element: <GoogleRedirect />},
       ],
     },
   ]);
