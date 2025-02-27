@@ -30,7 +30,7 @@ export async function fetchData(path, method = 'GET', data = null, logout, refre
     let options = {
       method: method, // Méthode de la requête (GET, POST, etc.)
       headers: headers, // En-têtes de la requête
-      // credentials: 'include', // Inclusion des cookies dans la requête
+      credentials: 'include', // Inclusion des cookies dans la requête
     };
 
     // Ajout du corps de la requête pour les requêtes POST

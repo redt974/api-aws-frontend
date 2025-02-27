@@ -6,7 +6,7 @@ function Progress({ progress }) {
     <div>
       <div className="progress-wrapper">
         <div className="progress"></div>
-        <pre>{progress}</pre>
+        <p>{progress}</p>
       </div>
     </div>
   )

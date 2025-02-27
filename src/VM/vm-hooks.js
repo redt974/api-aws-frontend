@@ -23,16 +23,22 @@ export default function VMHooks() {
         const newSocket = io(`http://localhost:3002`);
         setSocket(newSocket);
 
-        newSocket.on("progress", (message) => {
-            setProgress((prev) => prev + "\n" + message);
-        });
+        const handleProgress = (message) => {
+            setProgress(message);
+
+            // Cacher le message après 1 secondes s'il y a l'emoji de fin"
+            if (message.toLowerCase().includes("🚀")) {
+                setTimeout(() => setProgress(""), 1000);
+            }
+        };
+
+        newSocket.on("progress", handleProgress);
 
         return () => {
-            newSocket.off("progress");
+            newSocket.off("progress", handleProgress);
             newSocket.disconnect();
         };
     }, []);
-
 
     // Sauvegarde des sélections dans le localStorage dès qu'elles changent
     useEffect(() => {
@@ -88,8 +94,7 @@ export default function VMHooks() {
                 extensions: normalizedExtensions,
                 user_name: userName,
                 user_password: userPassword,
-            },
-                socket.id);
+            }, null, null, { "socket-id": socket.id });
 
             if (!data.ip) {
                 setError("Réponse invalide de l’API.");
